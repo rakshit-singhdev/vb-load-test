@@ -13,6 +13,7 @@
  *   GET  /              human-readable status + recent log
  *   GET  /healthz       "ok" (Render health check + keep-alive target)
  *   GET  /status        JSON: config, live progress, report
+ *   GET  /report        the full set of reports as text (live while running, final after)
  *   GET  /logs          last LOG_BUFFER lines, plain text
  *   POST /run?token=..  start a run; JSON body (or query) overrides env, e.g. {"PIN":"1234","START_AT":"06 11 18 30 00"}
  *   POST /stop?token=.. leave the game now and produce the report
@@ -21,6 +22,7 @@
 import { createServer } from 'node:http';
 
 import { describeConfig, formatIst, loadConfig } from './lib/config.mjs';
+import { buildReports } from './lib/report.mjs';
 import { Swarm } from './lib/swarm.mjs';
 
 const PORT = Number(process.env.PORT ?? 10000);
@@ -145,6 +147,7 @@ createServer(async (req, res) => {
   try {
     if (url.pathname === '/healthz') return send(res, 200, 'ok', 'text/plain');
     if (url.pathname === '/status') return send(res, 200, statusJson());
+    if (url.pathname === '/report') return send(res, 200, current ? buildReports(current.swarm).text : 'no run yet', 'text/plain');
     if (url.pathname === '/logs') return send(res, 200, lines.join('\n'), 'text/plain');
     if (url.pathname === '/') {
       const s = statusJson();

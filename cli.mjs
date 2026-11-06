@@ -23,6 +23,13 @@ const FLAGS = {
   'join-spread': 'JOIN_SPREAD_SEC',
   'team-size': 'TEAM_SIZE',
   prefix: 'NAME_PREFIX',
+  rounds: 'ROUNDS',
+  pattern: 'BUZZ_PATTERN',
+  'buzz-start': 'BUZZ_START_MS',
+  'buzz-gap': 'BUZZ_GAP_MS',
+  'clock-sync': 'CLOCK_SYNC',
+  skew: 'CLOCK_SKEW_MS',
+  table: 'ORDER_TABLE',
   'buzz-prob': 'BUZZ_PROBABILITY',
   'buzz-min': 'BUZZ_MIN_MS',
   'buzz-max': 'BUZZ_MAX_MS',
@@ -61,8 +68,15 @@ if (parsed.help) {
   --join-spread  seconds to spread joins over, 0 = burst (default 20)
   --team-size    bots per team in a team game, 1 = each its own team (default 1)
   --prefix       bot name prefix (default "Bot")
-  --buzz-prob    chance a bot buzzes per round, 0-1 (default 0.9)
-  --buzz-min/max reaction time after armAt in ms (default 150 / 1500)
+  --rounds       rounds to play, then print the reports (default 6; 0 = until the game ends)
+  --pattern      staggered | random (default staggered: shuffled, one press every --buzz-gap ms)
+  --buzz-start   staggered: first press this many ms after armAt (default 200, min 120)
+  --buzz-gap     staggered: ms between presses (default 30; <=15 is the server's tie window)
+  --clock-sync   per-bot | shared (default per-bot: every bot syncs its own clock like a phone)
+  --skew         per-bot: simulate device clocks off by up to ±this many ms (default 0)
+  --table        full | diff | off  per-round detail table in the report (default full)
+  --buzz-prob    chance a bot buzzes per round, 0-1 (default 1)
+  --buzz-min/max random pattern: reaction time after armAt in ms (default 150 / 1500)
   --transport    ably | http | both (default ably, HTTP only as fallback)
   --dup          % of buzzes double-tapped with the same nonce (default 0)
   --late         chance to buzz late while the host is judging (default 0)
