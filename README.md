@@ -97,4 +97,3 @@ GET works for both endpoints too, so you can fire them from a browser: `/run?tok
 | `kicked` | Bots the host removed. Useful for testing the kick flow. |
 
 Exit codes: `0` means the run completed. `1` means a config or run error. `2` means some bots never joined.
-# vb-load-test
