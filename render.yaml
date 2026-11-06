@@ -1,0 +1,25 @@
+# Render Blueprint. In the dashboard you can instead create a Web Service by hand
+# with the same values (Root Directory = vb-load-test).
+services:
+  - type: web
+    name: vb-load-test
+    runtime: node
+    plan: free
+    rootDir: vb-load-test
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: BACKEND_URL
+        sync: false
+      - key: PIN
+        sync: false
+      - key: START_AT
+        sync: false
+      - key: CONTROL_TOKEN
+        generateValue: true
+      - key: PLAYERS
+        value: "40"
